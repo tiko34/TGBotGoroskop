@@ -8,7 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{0AB36681-5EE6-4DB5-B1B2-09CDA5041A1B}"
 	ProjectSection(SolutionItems) = preProject
 		BotToken.py = BotToken.py
-		ZodiacSigns.py = ZodiacSigns.py
+		DefaultButtonList.py = DefaultButtonList.py
+		ZodiacSignsList.py = ZodiacSignsList.py
+		ZodiacUrl.py = ZodiacUrl.py
 	EndProjectSection
 EndProject
 Global
