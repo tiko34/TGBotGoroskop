@@ -24,27 +24,32 @@ def send_welcome(message):
 #Обработка всех текста ботом
 @bot.message_handler(content_types=['text'])
 def user_message(message):
-
+#Case для обработки всего текста поступающего боту
 	match message.text:
 		case 'Главное меню':
-			#создание стартовой клавиатуры
+#создание стартовой клавиатуры
 			main = ReplyKeyboardMarkup(resize_keyboard=True)
-			#Берет строки из списка ZodiacSigns и циклом делает каждую строку
-			#отдельной кнопкой
+#Берет строки из списка ZodiacSigns и циклом делает каждую строку
+#отдельной кнопкой
 			for ZS in ZodiacSigns:
 				main.add(KeyboardButton(str(ZS)))
-			#выдача клавиатуры пользователю и вывод сообщения
+#выдача клавиатуры пользователю и вывод сообщения
 			bot.reply_to(message, 'Выберите знак зодиака', reply_markup=main)
 		case 'Телец':
-			#создание клавиатуры для тельца
+#создание клавиатуры для тельца
 			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-			#Берет строки из списка DefaultButton и циклом делает каждую строку
-			#отдельной кнопкой
+#Берет строки из списка DefaultButton и циклом делает каждую строку
+#отдельной кнопкой
 			for DB in DefaultButton:
 				taurus.add(KeyboardButton(str(DB)))
 			bot.reply_to(message, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-			if message.text=='Сегодня':
-				bot.reply_to(message,'Извините раздел еще не готов для тельцов(')
+#Выбор дня на выдачу гороскопа
+			match message.text:
+				case 'Завтра':
+					bot.reply_to(message,'Извините раздел еще не готов для тельцов(')
+				case 'Сегодня':
+					bot.reply_to(message,'Извините раздел еще не готов для тельцов(')
+#Ответ пользователю если не найдена команда
 		case _:
 			bot.reply_to(message,'Извините, я не знаю такой команды')
 
