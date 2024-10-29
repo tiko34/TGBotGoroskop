@@ -1,5 +1,10 @@
 ## -*- coding: utf-8 -*-
+#библиотека для телеграмм бота
 import telebot  # type: ignore
+#Библиотека для отправления и получения запросов от сайтов в интернете
+import requests # type: ignore
+#Библиотека для парсинга
+from bs4 import BeautifulSoup # type: ignore
 #Получение токена из файла BotToken.py
 from BotToken import Token
 #Получение списка знаков зодиака из файла ZodiacSigns.py
@@ -20,8 +25,8 @@ def send_welcome(message):
 	for ZS in ZodiacSigns:
 		main.add(KeyboardButton(str(ZS)))
 	#выдача клавиатуры пользователю и вывод сообщения
-	bot.reply_to(message, 'Выберите знак зодиака', reply_markup=main)
-#Обработка всех текста ботом
+	bot.send_message(message.chat.id, 'Выберите знак зодиака', reply_markup=main)
+#Обработка всего текста ботом
 @bot.message_handler(content_types=['text'])
 def user_message(message):
 #Case для обработки всего текста поступающего боту
@@ -34,7 +39,7 @@ def user_message(message):
 			for ZS in ZodiacSigns:
 				main.add(KeyboardButton(str(ZS)))
 #выдача клавиатуры пользователю и вывод сообщения
-			bot.reply_to(message, 'Выберите знак зодиака', reply_markup=main)
+			bot.send_message(message.chat.id, 'Выберите знак зодиака', reply_markup=main)
 		case 'Телец':
 #создание клавиатуры для тельца
 			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
@@ -42,16 +47,36 @@ def user_message(message):
 #отдельной кнопкой
 			for DB in DefaultButton:
 				taurus.add(KeyboardButton(str(DB)))
-			bot.reply_to(message, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-#Выбор дня на выдачу гороскопа
-			match message.text:
-				case 'Завтра':
-					bot.reply_to(message,'Извините раздел еще не готов для тельцов(')
-				case 'Сегодня':
-					bot.reply_to(message,'Извините раздел еще не готов для тельцов(')
-#Ответ пользователю если не найдена команда
-		case _:
-			bot.reply_to(message,'Извините, я не знаю такой команды')
+			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
+
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, taurus_days_selection)
+
+
+def taurus_days_selection(message):
+
+	match message.text:
+		case 'Завтра':
+			url='https://horo.mail.ru/prediction/taurus/tomorrow/'
+			response = requests.get(url)
+			bs = BeautifulSoup(response.text,'lxml')
+			temp = bs.findAll('p')
+			for data in temp:
+				bot.send_message(message.chat.id,data)			
+		case 'Сегодня':
+			url='https://horo.mail.ru/prediction/taurus/today/'
+			response = requests.get(url)
+			bs = BeautifulSoup(response.text,"lxml")
+			temp = bs.findAll('p')
+			for data in temp:
+				bot.send_message(message.chat.id,data)		
+
+
+
+
+
+			
+
 
 
 
