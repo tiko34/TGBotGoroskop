@@ -49,6 +49,7 @@ def user_message(message):
 				taurus.add(KeyboardButton(str(DB)))
 			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
 
+
 #Переход к функции taurus_days_selection для выбора дальнешего действия
 			bot.register_next_step_handler(message, taurus_days_selection)
 		case 'Овен':
