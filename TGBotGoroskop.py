@@ -189,6 +189,17 @@ def taurus_days_selection(message):
 			temp = bs.findAll('p')
 			for data in temp:
 				bot.send_message(message.chat.id,data)			
+		case 'Главное меню':
+#создание стартовой клавиатуры
+			main = ReplyKeyboardMarkup(resize_keyboard=True)
+#Берет строки из списка ZodiacSigns и циклом делает каждую строку
+#отдельной кнопкой
+			for ZS in ZodiacSigns:
+				main.add(KeyboardButton(str(ZS)))
+		#выдача клавиатуры пользователю и вывод сообщения
+			bot.send_message(message.chat.id, 'Выберите знак зодиака', reply_markup=main)
+
+
 		case 'Сегодня':
 			url='https://horo.mail.ru/prediction/taurus/today/'
 			response = requests.get(url)
@@ -391,5 +402,5 @@ def pisces_days_selection(message):
 
 
 
-
+print('Телеграмм бот успешно запущен')
 bot.infinity_polling()
