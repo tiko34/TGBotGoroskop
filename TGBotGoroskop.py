@@ -95,17 +95,32 @@ def zodiac_keboard(message):
 
 #Методы для действий с конкретным знаком зодиака
 def taurus_days_selection(message):
-	match message.text:
-		case 'Завтра':
+	
+		if message.text == 'Завтра':
 			temp = parsing_site('taurus','tomorrow')
 			for data in temp:
-				bot.send_message(message.chat.id,data)			
-		case 'Меню':
-			zodiac_keboard(message)
-		case 'Сегодня':
+				bot.send_message(message.chat.id,data)
+	
+		if message.text == 'Сегодня':
 			temp = parsing_site('taurus','today')
 			for data in temp:
-				bot.send_message(message.chat.id,data)			
+				bot.send_message(message.chat.id,data)	
+	
+
+
+
+	# match message.text:
+	# 	case 'Завтра':
+	# 		temp = parsing_site('taurus','tomorrow')
+	# 		for data in temp:
+	# 			bot.send_message(message.chat.id,data)	
+		
+	# 	case 'Меню':
+	# 		zodiac_keboard(message)
+	# 	case 'Сегодня':
+	# 		temp = parsing_site('taurus','today')
+	# 		for data in temp:
+	# 			bot.send_message(message.chat.id,data)			
 def aries_days_selection(message):
 	match message.text:
 		case 'Завтра':
