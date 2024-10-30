@@ -15,6 +15,8 @@ from DefaultButtonList import DefaultButton
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
 #Получение ботом токена
 bot = telebot.TeleBot(Token)
+
+
 #Обработка команды /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -26,12 +28,87 @@ def send_welcome(message):
 		main.add(KeyboardButton(str(ZS)))
 	#выдача клавиатуры пользователю и вывод сообщения
 	bot.send_message(message.chat.id, 'Выберите знак зодиака', reply_markup=main)
+
+
+
 #Обработка всего текста ботом
 @bot.message_handler(content_types=['text'])
 def user_message(message):
 #Case для обработки всего текста поступающего боту
 	match message.text:
 		case 'Главное меню':
+#Получение набора клавиатуры со знаками зодиака
+			zodiac_keboard(message)
+		case 'Телец':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, taurus_days_selection)
+		case 'Овен':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, aries_days_selection)
+		case 'Близнецы':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, gemini_days_selection)
+		case 'Рак':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, cancer_days_selection)
+		case 'Лев':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, leo_days_selection)
+		case 'Дева':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, virgo_days_selection)
+		case 'Весы':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, libra_days_selection)
+		case 'Скорпион':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, scorpio_days_selection)
+		case 'Стрелец':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, sagittarius_days_selection)
+		case 'Козерог':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, capricorn_days_selection)
+		case 'Водолей':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, aquarius_days_selection)
+		case 'Рыбы':
+#Получение стандартной клавиатуры
+			default_keboard(message)
+#Переход к функции taurus_days_selection для выбора дальнешего действия
+			bot.register_next_step_handler(message, pisces_days_selection)
+#Методы для создания наборов клавиатур
+def default_keboard(message):
+#создание клавиатуры 
+			defaultkeyboard = ReplyKeyboardMarkup(resize_keyboard=True)
+#Берет строки из списка DefaultButton и циклом делает каждую строку
+#отдельной кнопкой
+			for DB in DefaultButton:
+				defaultkeyboard.add(KeyboardButton(str(DB)))
+			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=defaultkeyboard)
+def zodiac_keboard(message):
 #создание стартовой клавиатуры
 			main = ReplyKeyboardMarkup(resize_keyboard=True)
 #Берет строки из списка ZodiacSigns и циклом делает каждую строку
@@ -40,143 +117,6 @@ def user_message(message):
 				main.add(KeyboardButton(str(ZS)))
 #выдача клавиатуры пользователю и вывод сообщения
 			bot.send_message(message.chat.id, 'Выберите знак зодиака', reply_markup=main)
-		case 'Телец':
-#создание клавиатуры для тельца
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, taurus_days_selection)
-		case 'Овен':
-#создание клавиатуры для Овна
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, aries_days_selection)
-		case 'Близнецы':
-#создание клавиатуры для Близнецов
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, gemini_days_selection)
-		case 'Рак':
-#создание клавиатуры для Рака
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, cancer_days_selection)
-		case 'Лев':
-#создание клавиатуры для Рака
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, leo_days_selection)
-		case 'Дева':
-#создание клавиатуры для Рака
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, virgo_days_selection)
-		case 'Весы':
-#создание клавиатуры для Рака
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, libra_days_selection)
-		case 'Скорпион':
-#создание клавиатуры для Рака
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, scorpio_days_selection)
-		case 'Стрелец':
-#создание клавиатуры для Рака
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, sagittarius_days_selection)
-		case 'Козерог':
-#создание клавиатуры для Рака
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, capricorn_days_selection)
-		case 'Водолей':
-#создание клавиатуры для Рака
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, aquarius_days_selection)
-		case 'Рыбы':
-#создание клавиатуры для Рака
-			taurus = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
-			for DB in DefaultButton:
-				taurus.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=taurus)
-
-#Переход к функции taurus_days_selection для выбора дальнешего действия
-			bot.register_next_step_handler(message, pisces_days_selection)
-
-
-
-
 
 
 def taurus_days_selection(message):
