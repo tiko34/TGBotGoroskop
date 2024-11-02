@@ -1,4 +1,6 @@
 ## -*- coding: utf-8 -*-
+import time
+
 import requests # type: ignore
 #Библиотека для парсинга
 from bs4 import BeautifulSoup # type: ignore
