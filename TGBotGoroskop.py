@@ -11,7 +11,7 @@ import telebot  # type: ignore
 #Получение токена из файла BotToken.py
 from BotToken import Token
 #Метод для парсинга страниц
-from Parsing import parsing_site
+from Parsing import parsing_site, parsing_site_date
 #Получение списка знаков зодиака из файла ZodiacSigns.py
 from ZodiacSignsList import ZodiacSigns
 #Получение базовых двух кнопок из файла DefaultButtonList.py
@@ -21,7 +21,6 @@ from collections import defaultdict
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
 #Получение ботом токена
 bot = telebot.TeleBot(Token)
-
 
 #Временной интервал между командами (в секундах)
 COMMAND_INTERVAL = 2
