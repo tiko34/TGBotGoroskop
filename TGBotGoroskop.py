@@ -42,16 +42,16 @@ def send_welcome(message):
 	zodiac_keboard(message)
 
 # #Анти спам 
-# def Anti_spam(message):
-# 	user_id = message.from_user.id
-# 	current_time = time.time()
-#     # Проверяем, была ли команда отправлена слишком рано
-# 	if user_id in last_command_time:
-# 		elapsed_time = current_time - last_command_time[user_id]
-# 		if elapsed_time < COMMAND_INTERVAL:
-# 			bot.send_message(message.chat.id, '\U000026A0'+f'Пожалуйста, подождите {COMMAND_INTERVAL - int(elapsed_time)} секунд(ы) перед повторной отправкой команды.'+ '\U000026A0')
-# 			return
-# 	last_command_time[user_id] = current_time
+def Anti_spam(message):
+	user_id = message.from_user.id
+	current_time = time.time()
+    # Проверяем, была ли команда отправлена слишком рано
+	if user_id in last_command_time:
+		elapsed_time = current_time - last_command_time[user_id]
+		if elapsed_time < COMMAND_INTERVAL:
+			bot.send_message(message.chat.id, '\U000026A0'+f'Пожалуйста, подождите {COMMAND_INTERVAL - int(elapsed_time)} секунд(ы) перед повторной отправкой команды.'+ '\U000026A0')
+			return
+	last_command_time[user_id] = current_time
 
 #Обработка всего текста ботом
 @bot.message_handler(content_types=['text'])
