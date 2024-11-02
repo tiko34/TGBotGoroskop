@@ -5,7 +5,7 @@
 |Name|version|
 |-|-------------|
 
-|    |       |
+|beautifulsoup4|4.12.3|
 
 
 ## Reporting a Vulnerability
