@@ -1,4 +1,6 @@
 ## -*- coding: utf-8 -*-
+import time
+
 import requests # type: ignore
 #Библиотека для парсинга
 from bs4 import BeautifulSoup # type: ignore
@@ -12,4 +14,5 @@ def parsing_site(zodiac,day):
 		response = requests.get(correct_url)
 		bs = BeautifulSoup(response.text,'lxml')
 		result = bs.findAll('p')
+		time.sleep(1)
 		return result
