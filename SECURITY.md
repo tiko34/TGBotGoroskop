@@ -4,6 +4,7 @@
 
 |Name|version|
 |-|-------------|
+|Python|3.12|
 |beautifulsoup4|4.12.3|
 |bs4|0.0.2|
 |certifi|2024.8.30|
