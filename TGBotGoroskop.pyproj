@@ -26,7 +26,6 @@
     <Compile Include="Emoji.py" />
     <Compile Include="Parsing.py" />
     <Compile Include="TGBotGoroskop.py" />
-    <Compile Include="ZodiacEmoji.py" />
     <Compile Include="ZodiacSignsList.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

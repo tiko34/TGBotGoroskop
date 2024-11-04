@@ -1,61 +1,32 @@
 ## -*- coding: utf-8 -*-
-
-
-import time
 #библиотека для телеграмм бота
 import telebot  # type: ignore
-#Библиотека для отправления и получения запросов от сайтов в интернете
-# import requests # type: ignore
-#Библиотека для парсинга
-# from bs4 import BeautifulSoup # type: ignore
 #Получение токена из файла BotToken.py
 from BotToken import Token
-#Метод для парсинга страниц
-from Parsing import parsing_site, parsing_site_date
+#Функция для парсинга страниц
+from Parsing import parsing_site
 #Получение списка знаков зодиака из файла ZodiacSigns.py
 from ZodiacSignsList import ZodiacSigns
-#Получение базовых двух кнопок из файла DefaultButtonList.py
+#Получение базовых кнопок из файла DefaultButtonList.py
 from DefaultButtonList import DefaultButton
-from collections import defaultdict
-#Получение класса для Reply клавиатуры
+#Эмодзи 
+from Emoji import warning,smile_cat
+#Получение классов для Reply клавиатуры
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
 #Получение ботом токена
 bot = telebot.TeleBot(Token)
 
-#Временной интервал между командами (в секундах)
-COMMAND_INTERVAL = 2
-
-#Словарь для хранения времени последней команды от каждого пользователя
-last_command_time = defaultdict(float)
-
-
-
-
 #Обработка команды /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-	# Anti_spam(message)
 #Осведомление пользователя о времени обновления гороскопа
-	bot.send_message(message.chat.id, '\U000026A0'+'ВАЖНО!	'+'\U000026A0'+'\nГороскоп обновляется по МСК')
+	bot.send_message(message.chat.id, warning+'ВАЖНО!'+warning+'\nГороскоп обновляется по МСК')
 #Получение набора клавиатуры со знаками зодиака
 	zodiac_keboard(message)
-
-# #Анти спам 
-def Anti_spam(message):
-	user_id = message.from_user.id
-	current_time = time.time()
-    # Проверяем, была ли команда отправлена слишком рано
-	if user_id in last_command_time:
-		elapsed_time = current_time - last_command_time[user_id]
-		if elapsed_time < COMMAND_INTERVAL:
-			bot.send_message(message.chat.id, '\U000026A0'+f'Пожалуйста, подождите {COMMAND_INTERVAL - int(elapsed_time)} секунд(ы) перед повторной отправкой команды.'+ '\U000026A0')
-			return
-	last_command_time[user_id] = current_time
 
 #Обработка всего текста ботом
 @bot.message_handler(content_types=['text'])
 def user_message(message):
-	# Anti_spam(message)
 	match message.text:
 		case 'Меню':
 			zodiac_keboard(message)
@@ -96,7 +67,7 @@ def user_message(message):
 			default_keboard(message)
 			bot.register_next_step_handler(message, pisces_days_selection)
 
-#Методы для создания наборов клавиатур
+#Функции для создания наборов клавиатур
 def default_keboard(message):
 #создание клавиатуры 
 			defaultkeyboard = ReplyKeyboardMarkup(resize_keyboard=True)
@@ -113,11 +84,9 @@ def zodiac_keboard(message):
 			for ZS in ZodiacSigns:
 				zodiac_keboard.add(KeyboardButton(str(ZS)))
 #выдача клавиатуры пользователю и вывод сообщения
-			bot.send_message(message.chat.id, '\U0001F63A'+'Выберите знак зодиака'+'\U0001F63A', reply_markup=zodiac_keboard)
+			bot.send_message(message.chat.id, smile_cat+'Выберите знак зодиака'+smile_cat, reply_markup=zodiac_keboard)
 
-
-
-#Методы для действий с конкретным знаком зодиака
+#Функции для действий с конкретным знаком зодиака
 def taurus_days_selection(message):
 	match message.text:
 		case 'Завтра':
@@ -287,8 +256,8 @@ def pisces_days_selection(message):
 				bot.send_message(message.chat.id,data)
 			bot.register_next_step_handler(message, pisces_days_selection)
 
-
-
-
-print('Телеграмм бот успешно запущен')
-bot.infinity_polling()
+try:
+	print('Телеграмм бот успешно запущен')
+	bot.infinity_polling()
+except Exception as err:
+    print('Ошибка при старте:'+err)
