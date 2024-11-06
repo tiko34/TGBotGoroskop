@@ -21,7 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BotToken.py" />
+    <Compile Include="Privat_Strings.py" />
     <Compile Include="DefaultButtonList.py" />
     <Compile Include="Emoji.py" />
     <Compile Include="Parsing.py" />
