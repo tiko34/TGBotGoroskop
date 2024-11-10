@@ -2,19 +2,20 @@
 
 
 from telebot.async_telebot import AsyncTeleBot
-import telebot  # type: ignore
+import asyncio
 #Получение токена из файла BotToken.py
 from Privat_Strings import TOKEN
 #Функция для парсинга страниц
 from Parsing import parsing_site
-#Получение списка знаков зодиака из файла ZodiacSigns.py
+# #Получение списка знаков зодиака из файла ZodiacSigns.py
 from ZodiacSignsList import ZodiacSigns
-#Получение базовых кнопок из файла DefaultButtonList.py
+# #Получение базовых кнопок из файла DefaultButtonList.py
 from DefaultButtonList import DefaultButton
 #Эмодзи 
-from Emoji import warning,smile_cat
-#Получение классов для Reply клавиатуры
-from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
+# from Emoji import Emojiwarning,Emojismile_cat
+# #Получение классов для Reply клавиатуры
+from telebot.types import MessageEntity, ReplyKeyboardMarkup, KeyboardButton # type: ignore
+
 #Получение ботом токена
 bot = AsyncTeleBot(TOKEN)
 
@@ -22,52 +23,56 @@ bot = AsyncTeleBot(TOKEN)
 @bot.message_handler(commands=['start'])
 async def send_welcome(message):
 #Осведомление пользователя о времени обновления гороскопа
-	await bot.send_message(message.chat.id, warning+'ВАЖНО!'+warning+'\nГороскоп обновляется по МСК')
+	await bot.send_message(message.chat.id, '\U000026A0'+'ВАЖНО!'+'\U000026A0'+'\nГороскоп обновляется по МСК')
+	await zodiac_keboard(message)
 #Получение набора клавиатуры со знаками зодиака
-	#await zodiac_keboard(message)
+	
 
-#Обработка всего текста ботом
+
+
+# #Обработка всего текста ботом
 @bot.message_handler(content_types=['text'])
-def user_message(message):
+async def user_message(message):
 	match message.text:
 		case 'Меню':
-			zodiac_keboard(message)
+			await zodiac_keboard(message)
 		case 'Телец':
-			default_keboard(message)
-			bot.register_next_step_handler(message, taurus_days_selection)
+			await default_keboard(message)
+			await taurus_days_selection(message)
+			#await bot.register_next_step_handler(message, taurus_days_selection)
 		case 'Овен':
-			default_keboard(message)
-			bot.register_next_step_handler(message, aries_days_selection)
+			await default_keboard(message)
+			await bot.register_next_step_handler(message, aries_days_selection)
 		case 'Близнецы':
-			default_keboard(message)
-			bot.register_next_step_handler(message, gemini_days_selection)
+			await default_keboard(message)
+			await bot.register_next_step_handler(message, gemini_days_selection)
 		case 'Рак':
-			default_keboard(message)
-			bot.register_next_step_handler(message, cancer_days_selection)
+			await default_keboard(message)
+			await bot.register_next_step_handler(message, cancer_days_selection)
 		case 'Лев':
-			default_keboard(message)
-			bot.register_next_step_handler(message, leo_days_selection)
+			await default_keboard(message)
+			await bot.register_next_step_handler(message, leo_days_selection)
 		case 'Дева':
-			default_keboard(message)
-			bot.register_next_step_handler(message, virgo_days_selection)
+			await default_keboard(message)
+			await bot.register_next_step_handler(message, virgo_days_selection)
 		case 'Весы':
-			default_keboard(message)
-			bot.register_next_step_handler(message, libra_days_selection)
+			await default_keboard(message)
+			await bot.register_next_step_handler(message, libra_days_selection)
 		case 'Скорпион':
-			default_keboard(message)
-			bot.register_next_step_handler(message, scorpio_days_selection)
+			await default_keboard(message)
+			await bot.register_next_step_handler(message, scorpio_days_selection)
 		case 'Стрелец':
-			default_keboard(message)
-			bot.register_next_step_handler(message, sagittarius_days_selection)
+			await default_keboard(message)
+			await bot.register_next_step_handler(message, sagittarius_days_selection)
 		case 'Козерог':
-			default_keboard(message)
-			bot.register_next_step_handler(message, capricorn_days_selection)
+			await default_keboard(message)
+			await bot.register_next_step_handler(message, capricorn_days_selection)
 		case 'Водолей':
-			default_keboard(message)
-			bot.register_next_step_handler(message, aquarius_days_selection)
+			await default_keboard(message)
+			await bot.register_next_step_handler(message, aquarius_days_selection)
 		case 'Рыбы':
-			default_keboard(message)
-			bot.register_next_step_handler(message, pisces_days_selection)
+			await default_keboard(message)
+			await bot.register_next_step_handler(message, pisces_days_selection)
 
 #Функции для создания наборов клавиатур
 async def default_keboard(message):
@@ -86,24 +91,25 @@ async def zodiac_keboard(message):
 			for ZS in ZodiacSigns:
 				zodiac_keboard.add(KeyboardButton(str(ZS)))
 #выдача клавиатуры пользователю и вывод сообщения
-			await bot.send_message(message.chat.id, smile_cat+'Выберите знак зодиака'+smile_cat, reply_markup=zodiac_keboard)
+			await bot.send_message(message.chat.id, '\U0001F63A'+'Выберите знак зодиака'+'\U0001F63A', reply_markup=zodiac_keboard)
 
-#Функции для действий с конкретным знаком зодиака
-def taurus_days_selection(message):
+# #Функции для действий с конкретным знаком зодиака
+async def taurus_days_selection(message):
 		match message.text:
 			case 'Завтра':
 				temp = parsing_site('taurus','tomorrow')
 				for data in temp:
 					bot.send_message(message.chat.id,data.string)
-				bot.register_next_step_handler(message, taurus_days_selection)
+				await bot.register_next_step_handler(message, taurus_days_selection)
 			case 'Меню':
-				zodiac_keboard(message)
+				await zodiac_keboard(message)
 			case 'Сегодня':
 				temp = parsing_site('taurus','today')
 				for data in temp:
 					bot.send_message(message.chat.id,data.string)		
-				bot.register_next_step_handler(message, taurus_days_selection)
+				await bot.register_next_step_handler(message, taurus_days_selection)
 def aries_days_selection(message):
+	
 	match message.text:
 		case 'Завтра':
 			temp = parsing_site('aries','tomorrow')
@@ -117,7 +123,8 @@ def aries_days_selection(message):
 			for data in temp:
 				bot.send_message(message.chat.id,data.string)		
 			bot.register_next_step_handler(message, aries_days_selection)
-def gemini_days_selection(message):
+async def gemini_days_selection(message):
+	
 	match message.text:
 		case 'Завтра':
 			temp = parsing_site('gemini','tomorrow')
@@ -258,8 +265,10 @@ def pisces_days_selection(message):
 				bot.send_message(message.chat.id,data.string)
 			bot.register_next_step_handler(message, pisces_days_selection)
 
-try:
-	print('Телеграмм бот успешно запущен')
-	AsyncTeleBot.polling
-except Exception as err:
-    print('Ошибка при старте:'+err)
+
+
+# Функция для запуска бота
+async def main():
+    await bot.infinity_polling()
+
+asyncio.run(main())
