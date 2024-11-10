@@ -1,4 +1,7 @@
 ## -*- coding: utf-8 -*-
+
+
+from telebot.async_telebot import AsyncTeleBot
 import telebot  # type: ignore
 #Получение токена из файла BotToken.py
 from Privat_Strings import TOKEN
@@ -13,15 +16,15 @@ from Emoji import warning,smile_cat
 #Получение классов для Reply клавиатуры
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
 #Получение ботом токена
-bot = telebot.TeleBot(TOKEN)
+bot = AsyncTeleBot(TOKEN)
 
 #Обработка команды /start
 @bot.message_handler(commands=['start'])
-def send_welcome(message):
+async def send_welcome(message):
 #Осведомление пользователя о времени обновления гороскопа
-	bot.send_message(message.chat.id, warning+'ВАЖНО!'+warning+'\nГороскоп обновляется по МСК')
+	await bot.send_message(message.chat.id, warning+'ВАЖНО!'+warning+'\nГороскоп обновляется по МСК')
 #Получение набора клавиатуры со знаками зодиака
-	zodiac_keboard(message)
+	#await zodiac_keboard(message)
 
 #Обработка всего текста ботом
 @bot.message_handler(content_types=['text'])
@@ -67,15 +70,15 @@ def user_message(message):
 			bot.register_next_step_handler(message, pisces_days_selection)
 
 #Функции для создания наборов клавиатур
-def default_keboard(message):
+async def default_keboard(message):
 #создание клавиатуры 
 			defaultkeyboard = ReplyKeyboardMarkup(resize_keyboard=True)
 #Берет строки из списка DefaultButton и циклом делает каждую строку
 #отдельной кнопкой
 			for DB in DefaultButton:
 				defaultkeyboard.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=defaultkeyboard)
-def zodiac_keboard(message):
+			await bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=defaultkeyboard)
+async def zodiac_keboard(message):
 #создание стартовой клавиатуры
 			zodiac_keboard = ReplyKeyboardMarkup(resize_keyboard=True)
 #Берет строки из списка ZodiacSigns и циклом делает каждую строку
@@ -83,7 +86,7 @@ def zodiac_keboard(message):
 			for ZS in ZodiacSigns:
 				zodiac_keboard.add(KeyboardButton(str(ZS)))
 #выдача клавиатуры пользователю и вывод сообщения
-			bot.send_message(message.chat.id, smile_cat+'Выберите знак зодиака'+smile_cat, reply_markup=zodiac_keboard)
+			await bot.send_message(message.chat.id, smile_cat+'Выберите знак зодиака'+smile_cat, reply_markup=zodiac_keboard)
 
 #Функции для действий с конкретным знаком зодиака
 def taurus_days_selection(message):
@@ -257,6 +260,6 @@ def pisces_days_selection(message):
 
 try:
 	print('Телеграмм бот успешно запущен')
-	bot.infinity_polling()
+	AsyncTeleBot.polling
 except Exception as err:
     print('Ошибка при старте:'+err)
