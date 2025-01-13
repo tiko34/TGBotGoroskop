@@ -1,8 +1,10 @@
 ## -*- coding: utf-8 -*-
 
-
-from telebot.async_telebot import AsyncTeleBot
+import aiogram
 import asyncio
+import aiogram.fsm
+import aiogram.fsm.storage
+import aiogram.fsm.storage.memory
 #Получение токена из файла BotToken.py
 from Privat_Strings import TOKEN
 #Функция для парсинга страниц
@@ -14,10 +16,23 @@ from DefaultButtonList import DefaultButton
 #Эмодзи 
 # from Emoji import Emojiwarning,Emojismile_cat
 # #Получение классов для Reply клавиатуры
-from telebot.types import MessageEntity, ReplyKeyboardMarkup, KeyboardButton # type: ignore
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
+from telebot.async_telebot import AsyncTeleBot
+
 
 #Получение ботом токена
 bot = AsyncTeleBot(TOKEN)
+storage = aiogram.fsm.storage.memory.MemoryStorage()
+dp = aiogram.Dispatcher()
+
+# Определение состояний
+@dp.message_handler
+class Form(aiogram.StatesGroup):
+    waiting_for_day = State()
+    #waiting_for_age = State()
+
+
+
 
 #Обработка команды /start
 @bot.message_handler(commands=['start'])
@@ -95,6 +110,7 @@ async def zodiac_keboard(message):
 
 # #Функции для действий с конкретным знаком зодиака
 async def taurus_days_selection(message):
+		result = dp.feed_update(bot=bot, update=message)
 		match message.text:
 			case 'Завтра':
 				temp = parsing_site('taurus','tomorrow')
