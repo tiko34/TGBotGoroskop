@@ -3,11 +3,7 @@ import telebot  # type: ignore
 #Получение токена из файла BotToken.py
 from Privat_Strings import TOKEN
 #Функция для парсинга страниц
-from Parsing import parsing_site
-#Получение списка знаков зодиака из файла ZodiacSigns.py
-from ZodiacSignsList import ZodiacSigns
-#Получение базовых кнопок из файла DefaultButtonList.py
-from DefaultButtonList import DefaultButton
+from Parsing import parsing_site,parsing_site_zodiac_List
 #Эмодзи 
 from Emoji import warning,smile_cat
 #Получение классов для Reply клавиатуры
@@ -68,19 +64,16 @@ def user_message(message):
 
 #Функции для создания наборов клавиатур
 def default_keboard(message):
-#создание клавиатуры 
+#создание клавиатуры
+			DefaultButton = ['Сегодня','Завтра','Меню']
 			defaultkeyboard = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка DefaultButton и циклом делает каждую строку
-#отдельной кнопкой
 			for DB in DefaultButton:
 				defaultkeyboard.add(KeyboardButton(str(DB)))
 			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=defaultkeyboard)
 def zodiac_keboard(message):
 #создание стартовой клавиатуры
 			zodiac_keboard = ReplyKeyboardMarkup(resize_keyboard=True)
-#Берет строки из списка ZodiacSigns и циклом делает каждую строку
-#отдельной кнопкой
-			for ZS in ZodiacSigns:
+			for ZS in parsing_site_zodiac_List():
 				zodiac_keboard.add(KeyboardButton(str(ZS)))
 #выдача клавиатуры пользователю и вывод сообщения
 			bot.send_message(message.chat.id, smile_cat+'Выберите знак зодиака'+smile_cat, reply_markup=zodiac_keboard)
@@ -98,7 +91,7 @@ def taurus_days_selection(message):
 			case 'Сегодня':
 				temp = parsing_site('taurus','today')
 				for data in temp:
-					bot.send_message(message.chat.id,data.string)	
+					bot.send_message(message.chat.id,data.string)
 				bot.register_next_step_handler(message, taurus_days_selection)
 def aries_days_selection(message):
 	match message.text:
