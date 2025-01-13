@@ -98,7 +98,7 @@ def taurus_days_selection(message):
 			case 'Сегодня':
 				temp = parsing_site('taurus','today')
 				for data in temp:
-					bot.send_message(message.chat.id,data.string)		
+					bot.send_message(message.chat.id,data.string)	
 				bot.register_next_step_handler(message, taurus_days_selection)
 def aries_days_selection(message):
 	match message.text:
