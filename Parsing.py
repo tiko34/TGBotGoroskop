@@ -20,7 +20,15 @@ def parsing_site(zodiac,day):
 		return result
 	except Exception:
 		return  error
-		
+
+def parsing_site_zodiac_List():
+	url_zodiac_list="https://horo.mail.ru/prediction/tomorrow/"
+	response = requests.get(url_zodiac_list)
+	bs = BeautifulSoup(response.text,'lxml')
+	result=[]
+	for elem in bs.find_all(class_='da2727fca3 b40b56773d e65bdf6865'):
+		result.append(elem.text)
+	return result
 	    
 
 

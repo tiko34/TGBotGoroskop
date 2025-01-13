@@ -22,11 +22,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Privat_Strings.py" />
-    <Compile Include="DefaultButtonList.py" />
     <Compile Include="Emoji.py" />
     <Compile Include="Parsing.py" />
     <Compile Include="TGBotGoroskop.py" />
-    <Compile Include="ZodiacSignsList.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Screenshot\" />
