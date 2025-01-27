@@ -4,7 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>f27e6630-c003-43e7-9564-5269cd7aa82e</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>main.py</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -20,11 +21,6 @@
     <DebugSymbols>true</DebugSymbols>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Emoji.py" />
-    <Compile Include="Parsing.py" />
-    <Compile Include="main.py" />
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="Screenshot\" />
   </ItemGroup>
