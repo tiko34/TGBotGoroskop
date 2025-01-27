@@ -65,21 +65,26 @@ def handle_zodiac(message, next_step_handler):
     bot.register_next_step_handler(message, next_step_handler)
 
 #Функции для действий с конкретным знаком зодиака
-def days_selection(message, zodiac_sign, next_step_handler):
+def days_selection(message, zodiac, next_step_handler):
+    
+   # Обработчик дней для знаков зодиака.
+
     match message.text:
-        case 'Завтра':
-            temp = parsing_site(zodiac_sign, 'tomorrow')
-            for data in temp:
-                bot.send_message(message.chat.id, data.string)
-            bot.register_next_step_handler(message, next_step_handler)
         case 'Сегодня':
-            temp = parsing_site(zodiac_sign, 'today')
-            for data in temp:
-                bot.send_message(message.chat.id, data.string)
-            bot.register_next_step_handler(message, next_step_handler)
+            data = parsing_site(zodiac, 'today')
+        case 'Завтра':
+            data = parsing_site(zodiac, 'tomorrow')
         case 'Меню':
             zodiac_keboard(message)
-
+            return
+        case _:
+            bot.send_message(message.chat.id, "Команда не распознана.")
+            return
+    for item in data:
+        bot.send_message(message.chat.id, item)
+    
+    # Регистрация следующего шага
+    bot.register_next_step_handler(message, next_step_handler)
 # Определяем обработчики для каждого знака зодиака, передавая соответствующие параметры
 
 def taurus_days_selection(message):
