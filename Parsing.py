@@ -26,7 +26,6 @@ def parsing_site(zodiac, day):
     except Exception as e:
         return [f"Ошибка парсинга: {str(e)}"]
 
-
 #Для кеширования списка знаков зодиака
 zodiac_cache = {}
 def parsing_site_zodiac_List():
