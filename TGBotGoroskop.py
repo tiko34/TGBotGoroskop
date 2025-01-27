@@ -11,6 +11,22 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
 #Получение ботом токена
 bot = telebot.TeleBot(TOKEN)
 
+#Функции для создания наборов клавиатур
+def default_keboard(message):
+#создание клавиатуры
+			DefaultButton = ['Сегодня','Завтра','Меню']
+			defaultkeyboard = ReplyKeyboardMarkup(resize_keyboard=True)
+			for DB in DefaultButton:
+				defaultkeyboard.add(KeyboardButton(str(DB)))
+			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=defaultkeyboard)
+def zodiac_keboard(message):
+#создание стартовой клавиатуры
+			zodiac_keboard = ReplyKeyboardMarkup(resize_keyboard=True)
+			for ZS in parsing_site_zodiac_List():
+				zodiac_keboard.add(KeyboardButton(str(ZS)))
+#выдача клавиатуры пользователю и вывод сообщения
+			bot.send_message(message.chat.id, smile_cat+'Выберите знак зодиака'+smile_cat, reply_markup=zodiac_keboard)
+
 #Обработка команды /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -47,22 +63,6 @@ def user_message(message):
 def handle_zodiac(message, next_step_handler):
     default_keboard(message)
     bot.register_next_step_handler(message, next_step_handler)
-
-#Функции для создания наборов клавиатур
-def default_keboard(message):
-#создание клавиатуры
-			DefaultButton = ['Сегодня','Завтра','Меню']
-			defaultkeyboard = ReplyKeyboardMarkup(resize_keyboard=True)
-			for DB in DefaultButton:
-				defaultkeyboard.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=defaultkeyboard)
-def zodiac_keboard(message):
-#создание стартовой клавиатуры
-			zodiac_keboard = ReplyKeyboardMarkup(resize_keyboard=True)
-			for ZS in parsing_site_zodiac_List():
-				zodiac_keboard.add(KeyboardButton(str(ZS)))
-#выдача клавиатуры пользователю и вывод сообщения
-			bot.send_message(message.chat.id, smile_cat+'Выберите знак зодиака'+smile_cat, reply_markup=zodiac_keboard)
 
 #Функции для действий с конкретным знаком зодиака
 def days_selection(message, zodiac_sign, next_step_handler):
