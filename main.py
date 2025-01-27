@@ -1,7 +1,7 @@
 ## -*- coding: utf-8 -*-
 import telebot  # type: ignore
 #не важно
-from Privat_Strings import TOKEN
+from config import TOKEN
 #Функция для парсинга страниц
 from Parsing import parsing_site,parsing_site_zodiac_List
 #Эмодзи 

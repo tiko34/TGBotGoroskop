@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>f27e6630-c003-43e7-9564-5269cd7aa82e</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>TGBotGoroskop.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,10 +21,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Privat_Strings.py" />
+    <Compile Include="config.py" />
     <Compile Include="Emoji.py" />
     <Compile Include="Parsing.py" />
-    <Compile Include="TGBotGoroskop.py" />
+    <Compile Include="main.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Screenshot\" />
