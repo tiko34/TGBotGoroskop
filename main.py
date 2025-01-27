@@ -1,7 +1,5 @@
 ## -*- coding: utf-8 -*-
 import telebot  # type: ignore
-#не важно
-from config import TOKEN
 #Функция для парсинга страниц
 from Parsing import parsing_site,parsing_site_zodiac_List
 #Эмодзи 
@@ -9,7 +7,7 @@ from Emoji import warning,smile_cat
 #Получение классов для Reply клавиатуры
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
 #Получение ботом токена
-bot = telebot.TeleBot(TOKEN)
+bot = telebot.TeleBot("")
 
 #Функции для создания наборов клавиатур
 def default_keboard(message):
