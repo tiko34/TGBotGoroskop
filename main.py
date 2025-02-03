@@ -7,7 +7,7 @@ from Parsing import parsing_site,parsing_site_zodiac_List
 #Эмодзи 
 from Emoji import warning,smile_cat
 #Получение Токена бота 
-from Config import TOKEN
+#from Config import TOKEN
 #Получение классов для Reply клавиатуры
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
 #Получение ботом токена
