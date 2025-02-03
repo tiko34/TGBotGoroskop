@@ -1,29 +1,30 @@
 ## -*- coding: utf-8 -*-
+import traceback
 import telebot  # type: ignore
 #Функция для парсинга страниц
 from Parsing import parsing_site,parsing_site_zodiac_List
 #Эмодзи 
 from Emoji import warning,smile_cat
+#Получение Токена бота 
+from Config import TOKEN
 #Получение классов для Reply клавиатуры
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
 #Получение ботом токена
-bot = telebot.TeleBot("")
+bot = telebot.TeleBot(TOKEN)
 
-#Функции для создания наборов клавиатур
-def default_keboard(message):
-#создание клавиатуры
-			DefaultButton = ['Сегодня','Завтра','Меню']
-			defaultkeyboard = ReplyKeyboardMarkup(resize_keyboard=True)
-			for DB in DefaultButton:
-				defaultkeyboard.add(KeyboardButton(str(DB)))
-			bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', reply_markup=defaultkeyboard)
-def zodiac_keboard(message):
-#создание стартовой клавиатуры
-			zodiac_keboard = ReplyKeyboardMarkup(resize_keyboard=True)
-			for ZS in parsing_site_zodiac_List():
-				zodiac_keboard.add(KeyboardButton(str(ZS)))
-#выдача клавиатуры пользователю и вывод сообщения
-			bot.send_message(message.chat.id, smile_cat+'Выберите знак зодиака'+smile_cat, reply_markup=zodiac_keboard)
+def create_keyboard(options):
+    keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
+    for option in options:
+        keyboard.add(KeyboardButton(str(option)))
+    return keyboard
+
+def default_keyboard(message):
+    bot.send_message(message.chat.id, 'На какой день хотите получить гороскоп?', 
+                     reply_markup=create_keyboard(['Сегодня', 'Завтра', 'Меню']))
+
+def zodiac_keyboard(message):
+    bot.send_message(message.chat.id, f'{smile_cat}Выберите знак зодиака{smile_cat}', 
+                     reply_markup=create_keyboard(parsing_site_zodiac_List()))
 
 #Обработка команды /start
 @bot.message_handler(commands=['start'])
@@ -31,13 +32,12 @@ def send_welcome(message):
 #Осведомление пользователя о времени обновления гороскопа
 	bot.send_message(message.chat.id, warning+'ВАЖНО!'+warning+'\nГороскоп обновляется по МСК')
 #Получение набора клавиатуры со знаками зодиака
-	zodiac_keboard(message)
+	zodiac_keyboard(message)
 
-#Обработка всего текста ботом
 @bot.message_handler(content_types=['text'])
 def user_message(message):
     handlers = {
-        'Меню': lambda msg: zodiac_keboard(msg),
+        'Меню': lambda msg: zodiac_keyboard(msg),
         'Телец': lambda msg: handle_zodiac(msg, taurus_days_selection),
         'Овен': lambda msg: handle_zodiac(msg, aries_days_selection),
         'Близнецы': lambda msg: handle_zodiac(msg, gemini_days_selection),
@@ -59,7 +59,7 @@ def user_message(message):
         bot.send_message(message.chat.id, "Команда не распознана. Пожалуйста, выберите из предложенных вариантов.")
 
 def handle_zodiac(message, next_step_handler):
-    default_keboard(message)
+    default_keyboard(message)
     bot.register_next_step_handler(message, next_step_handler)
 
 #Функции для действий с конкретным знаком зодиака
@@ -73,7 +73,7 @@ def days_selection(message, zodiac, next_step_handler):
         case 'Завтра':
             data = parsing_site(zodiac, 'tomorrow')
         case 'Меню':
-            zodiac_keboard(message)
+            zodiac_keyboard(message)
             return
         case _:
             bot.send_message(message.chat.id, "Команда не распознана.")
@@ -122,7 +122,8 @@ def pisces_days_selection(message):
     days_selection(message, 'pisces', pisces_days_selection)
 
 try:
-	print('Телеграмм бот успешно запущен')
-	bot.infinity_polling()
+    print('Телеграмм бот успешно запущен')
+    bot.infinity_polling()
 except Exception as err:
-    print('Ошибка при старте:'+err)
+    print(f'Ошибка при старте: {err}')
+    traceback.print_exc()  # Выведет полный стек ошибки

@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Config.py" />
     <Compile Include="Emoji.py" />
     <Compile Include="Parsing.py" />
     <Compile Include="main.py" />
