@@ -1,5 +1,6 @@
 ## -*- coding: utf-8 -*-
 import traceback
+import os
 import telebot  # type: ignore
 #Функция для парсинга страниц
 from Parsing import parsing_site,parsing_site_zodiac_List
@@ -10,6 +11,9 @@ from Config import TOKEN
 #Получение классов для Reply клавиатуры
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
 #Получение ботом токена
+# Получаем токен из переменной среды
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+
 bot = telebot.TeleBot(TOKEN)
 
 def create_keyboard(options):
