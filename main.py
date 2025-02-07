@@ -7,13 +7,12 @@ from Parsing import parsing_site,parsing_site_zodiac_List
 #Эмодзи 
 from Emoji import warning,smile_cat
 #Получение Токена бота 
-from Config import TOKEN
+#from Config import TOKEN
+# Получаем токен из переменной среды
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 #Получение классов для Reply клавиатуры
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
 #Получение ботом токена
-# Получаем токен из переменной среды
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-
 bot = telebot.TeleBot(TOKEN)
 
 def create_keyboard(options):
@@ -130,4 +129,4 @@ try:
     bot.infinity_polling()
 except Exception as err:
     print(f'Ошибка при старте: {err}')
-    traceback.print_exc()  # Выведет полный стек ошибки
+    traceback.print_exc()  
