@@ -8,8 +8,11 @@ from Parsing import parsing_site,parsing_site_zodiac_List
 from Emoji import warning,smile_cat
 #Получение Токена бота 
 #from Config import TOKEN
+<<<<<<< HEAD
 # Получаем токен из переменной среды
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+=======
+>>>>>>> master
 #Получение классов для Reply клавиатуры
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton # type: ignore
 #Получение ботом токена
