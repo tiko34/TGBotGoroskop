@@ -20,7 +20,7 @@
 
 2. Создайте файл `.env` со своим токеном:
     ```
-    BOT_TOKEN=your_telegram_bot_token
+    TELEGRAM_BOT_TOKEN=your_telegram_bot_token
     ```
 
 3. Запустите бота:
