@@ -105,7 +105,34 @@ docker run -d \
 
 echo -e "${GREEN}[OK]${RESET} Бот запущен. Активные контейнеры:"
 docker ps --filter "ancestor=$TAG"
+```
+# Dockerfile
 
+```
+# Используем минимальный образ Python
+FROM python:3.12-slim
 
+# Создаем рабочую директорию
+WORKDIR /app
+
+# Обновляем систему и устанавливаем инструменты
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git sed && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
+# Создаем виртуальное окружение и обновляем pip
+RUN python3 -m venv /app/venv && \
+    /app/venv/bin/pip install --upgrade pip
+
+# Устанавливаем зависимости из requirements.txt
+COPY requirements.txt /app/requirements.txt
+RUN /app/venv/bin/pip install --no-cache-dir -r /app/requirements.txt
+
+# Клонируем репозиторий с GitHub
+RUN git clone --depth 1 https://github.com/tiko34/TGBotGoroskop.git /app/TGBotGoroskop
+
+# Указываем Python из виртуального окружения для запуска основного скрипта
+ENTRYPOINT ["/app/venv/bin/python"]
+CMD ["/app/TGBotGoroskop/main.py"]
 ```
 
